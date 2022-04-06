@@ -1,0 +1,63 @@
+name: Build & Publish Docker Image
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    cd-headless:
+        runs-on: ubuntu-latest
+        name: CD - build and deploy headless image
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: login to Docker Hub
+                uses: docker/login-action@v1
+                with:
+                    username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                    password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build and push the image
+                run: |
+                    docker buildx build \
+                        --push \
+                        --no-cache \
+                        --tag ${{ secrets.DOCKER_HUB_USERNAME }}/standard:1.11-headless \
+                        --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 headless/
+
+    cd-traditional:
+        runs-on: ubuntu-latest
+        name: CD - build and deploy traditional image
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: login to Docker Hub
+                uses: docker/login-action@v1
+                with:
+                    username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                    password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build and push the image
+                run: |
+                    docker buildx build \
+                        --push \
+                        --no-cache \
+                        --tag ${{ secrets.DOCKER_HUB_USERNAME }}/standard:1.11-traditional \
+                        --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 traditional/

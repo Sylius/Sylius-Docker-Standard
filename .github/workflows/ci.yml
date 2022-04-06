@@ -1,0 +1,47 @@
+name: Build Docker Image
+
+on:
+    push:
+        branches-ignore:
+            - master
+
+jobs:
+    ci-headless:
+        runs-on: ubuntu-latest
+        name: CI - build headless image
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build headless image
+                run: |
+                    docker buildx build \
+                    --no-cache \
+                    --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 headless/
+
+    ci-traditional:
+        runs-on: ubuntu-latest
+        name: CI - build traditional image
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build headless image
+                run: |
+                    docker buildx build \
+                    --no-cache \
+                    --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 traditional/
