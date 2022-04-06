@@ -2,8 +2,11 @@ name: Build Docker Image
 
 on:
     push:
-        branches-ignore:
-            - master
+        paths-ignore:
+            - "*.md"
+    pull_request:
+        paths-ignore:
+            - "*.md"
 
 jobs:
     ci-headless:

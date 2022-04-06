@@ -4,11 +4,20 @@ on:
     push:
         branches:
             - master
+        paths-ignore:
+            - "*.md"
+
+env:
+    IMAGE_OWNER: sylius
+    IMAGE_NAME: standard
+    IMAGE_VERSION: 1.11
 
 jobs:
     cd-headless:
         runs-on: ubuntu-latest
         name: CD - build and deploy headless image
+        env:
+            IMAGE_TYPE: headless
         steps:
             -
                 name: checkout code
@@ -31,12 +40,14 @@ jobs:
                     docker buildx build \
                         --push \
                         --no-cache \
-                        --tag sylius/standard:1.11-headless \
+                        --tag ${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ env.IMAGE_TYPE }} \
                         --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 headless/
 
     cd-traditional:
         runs-on: ubuntu-latest
         name: CD - build and deploy traditional image
+        env:
+            IMAGE_TYPE: traditional
         steps:
             -
                 name: checkout code
@@ -59,5 +70,5 @@ jobs:
                     docker buildx build \
                         --push \
                         --no-cache \
-                        --tag sylius/standard:1.11-traditional \
+                        --tag ${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}-${{ env.IMAGE_TYPE }} \
                         --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 traditional/
