@@ -1,4 +1,4 @@
-name: Build Docker Image
+name: CI - build traditional image
 
 on:
     push:
@@ -9,9 +9,8 @@ on:
             - "traditional/**"
 
 jobs:
-    ci:
+    ci-traditional:
         runs-on: ubuntu-latest
-        name: CI - build traditional image
         steps:
             -
                 name: checkout code

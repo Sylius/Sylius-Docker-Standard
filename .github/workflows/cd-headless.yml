@@ -1,4 +1,4 @@
-name: Build & Publish Docker Image
+name: CD - build and deploy headless image
 
 on:
     push:
@@ -14,9 +14,8 @@ env:
     IMAGE_TYPE: headless
 
 jobs:
-    cd:
+    cd-headless:
         runs-on: ubuntu-latest
-        name: CD - build and deploy headless image
         steps:
             -
                 name: checkout code
