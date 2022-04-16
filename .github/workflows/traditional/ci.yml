@@ -1,0 +1,30 @@
+name: Build Docker Image
+
+on:
+    push:
+        paths:
+            - "traditional/**"
+    pull_request:
+        paths:
+            - "traditional/**"
+
+jobs:
+    ci:
+        runs-on: ubuntu-latest
+        name: CI - build traditional image
+        steps:
+            -
+                name: checkout code
+                uses: actions/checkout@v2
+            -
+                name: install buildx
+                id: buildx
+                uses: crazy-max/ghaction-docker-buildx@v1
+                with:
+                    buildx-version: latest
+            -
+                name: build headless image
+                run: |
+                    docker buildx build \
+                    --no-cache \
+                    --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 traditional/
