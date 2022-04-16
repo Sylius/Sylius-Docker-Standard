@@ -1,4 +1,4 @@
-name: Build Docker Image
+name: CI - build headless image
 
 on:
     push:
@@ -9,9 +9,8 @@ on:
             - "headless/**"
 
 jobs:
-    ci:
+    ci-headless:
         runs-on: ubuntu-latest
-        name: CI - build headless image
         steps:
             -
                 name: checkout code

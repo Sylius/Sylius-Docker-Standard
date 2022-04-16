@@ -1,4 +1,4 @@
-name: Build & Publish Docker Image
+name: CD - build and deploy traditional image
 
 on:
     push:
@@ -14,9 +14,8 @@ env:
     IMAGE_TYPE: traditional
 
 jobs:
-    cd:
+    cd-traditional:
         runs-on: ubuntu-latest
-        name: CD - build and deploy traditional image
         steps:
             -
                 name: checkout code
