@@ -39,9 +39,6 @@ RUN apt-get update && apt-get install -y \
     php8.0-pgsql \
     php8.0-yaml
 
-# Link php-fpm binary file without version
-RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm
-
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer
 
@@ -49,7 +46,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Create directory for php-fpm socket
-RUN mkdir -p /run/php
+# Link php-fpm binary file without version
+# -p Creates missing intermediate path name directories
+RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm && mkdir -p /run/php
 
 # Initialize config files
 COPY .docker/supervisord.conf   /etc/supervisor/conf.d/supervisor.conf
