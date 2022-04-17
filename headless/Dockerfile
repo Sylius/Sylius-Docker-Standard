@@ -46,7 +46,7 @@ RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer
 
 # Cleanup
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/*
 
 # Create directory for php-fpm socket
 RUN mkdir -p /run/php
