@@ -68,4 +68,7 @@ WORKDIR /app
 
 EXPOSE 80
 
+HEALTHCHECK --start-period=5s --interval=2s --timeout=3s --retries=2 \
+    CMD curl --fail http://localhost:80 || exit 1
+
 ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
