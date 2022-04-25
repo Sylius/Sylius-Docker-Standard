@@ -2,7 +2,7 @@
 
 * Status: [proposed | rejected | accepted | deprecated | … | superseded by [ADR-0005](0005-example.md)]
 * Date: [YYYY-MM-DD when the decision was last updated] <!-- optional -->
-* Related Image: [headless | traditional | ...]
+* Related Image: [all | headless | traditional | ...]
 * Related Image Version: [master | 1.11 | 1.12 | ...]
 
 ## Context and Problem Statement
