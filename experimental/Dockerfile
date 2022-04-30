@@ -1,18 +1,14 @@
 FROM php:8.0-fpm-alpine
 
-ARG DEBIAN_FRONTEND=noninteractive
-ENV LC_ALL=C.UTF-8
-
 COPY --from=composer:2.3 /usr/bin/composer /usr/bin/composer
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/install-php-extensions
 
-# Install basic tools
-RUN apk update && apk --no-cache add \
+RUN apk update && apk add \
     supervisor \
-    make \
     unzip \
     nginx
 
-RUN docker-php-ext-install \
+RUN install-php-extensions \
     calendar \
     ctype \
     curl \
@@ -37,42 +33,19 @@ RUN docker-php-ext-install \
 # pdo_dblib pdo_firebird pdo_mysql pdo_oci pdo_odbc pdo_pgsql pdo_sqlite pgsql phar posix pspell
 # readline reflection session shmop simplexml snmp soap sockets sodium spl standard sysvmsg sysvsem sysvshm tidy
 # tokenizer xml xmlreader xmlwriter xsl zend_test zip
-RUN docker-php-ext-enable \
-    calendar \
-    ctype \
-    curl \
-    dom \
-    exif \
-    gd \
-    hash \
-    iconv \
-    intl \
-    mbstring \
-    opcache \
-    pdo \
-    pdo_mysql \
-    pdo_pgsql \
-    pdo_sqlite \
-    pgsql \
-    xml \
-    xsl \
-    zip
 
-# Cleanup
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* /usr/share/man/* /var/cache/apk/*
 
-# Create directory for php-fpm socket
 RUN ln -s /usr/local/sbin/php-fpm  /usr/sbin/php-fpm
+RUN mkdir -p /var/log/php-fpm/
 
-# Initialize config files
 COPY .docker/supervisord.conf   /etc/supervisor/conf.d/supervisor.conf
 COPY .docker/nginx.conf         /etc/nginx/nginx.conf
-COPY .docker/fpm.conf           /etc/php/8.0/fpm/pool.d/www.conf
-COPY .docker/php.ini            /etc/php/8.0/fpm/php.ini
-COPY .docker/php.ini            /etc/php/8.0/cli/php.ini
+COPY .docker/fpm.conf           /usr/local/etc/php-fpm.conf
+COPY .docker/php.ini            /usr/local/etc/php/php.ini
 
 WORKDIR /app
 
 EXPOSE 80
 
-ENTRYPOINT ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisor.conf"]
