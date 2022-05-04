@@ -1,4 +1,4 @@
-FROM sylius/standard:1.11-traditional
+FROM sylius-traditional
 
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
