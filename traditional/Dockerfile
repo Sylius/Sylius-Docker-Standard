@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     nodejs \
     nginx \
     php8.0 \
+    php8.0-apcu \
     php8.0-common \
     php8.0-cli \
     php8.0-xml \
