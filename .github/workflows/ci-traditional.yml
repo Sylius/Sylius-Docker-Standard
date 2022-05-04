@@ -26,8 +26,9 @@ jobs:
                 with:
                     buildx-version: latest
             -
-                name: build headless image
+                name: Build Traditional Image
                 run: |
+                    docker network create --driver bridge sylius_network
                     docker buildx build \
                     --no-cache \
                     --network sylius_network \
@@ -39,7 +40,6 @@ jobs:
             -
                 name: Setup MySQL
                 run: |
-                    docker network create --driver bridge sylius_network
                     docker run \
                         --platform linux/amd64 \
                         -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
