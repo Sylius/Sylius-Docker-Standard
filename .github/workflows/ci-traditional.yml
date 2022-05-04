@@ -2,11 +2,15 @@ name: CI - build traditional image
 
 on:
     push:
+        branches-ignore:
+            - master
         paths:
             - "traditional/**"
+            - ".github/**"
     pull_request:
         paths:
             - "traditional/**"
+            - ".github/**"
 
 jobs:
     ci-traditional:

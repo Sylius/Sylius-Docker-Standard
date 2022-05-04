@@ -2,11 +2,15 @@ name: CI - build headless image
 
 on:
     push:
+        branches-ignore:
+            - master
         paths:
             - "headless/**"
+            - ".github/**"
     pull_request:
         paths:
             - "headless/**"
+            - ".github/**"
 
 jobs:
     ci-headless:
