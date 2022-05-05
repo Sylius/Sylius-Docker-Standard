@@ -29,19 +29,20 @@ jobs:
                 name: Build Traditional Image
                 run: |
                     docker network create --driver bridge sylius_network
+                         
                     docker buildx build \
-                    --no-cache \
-                    --cache-to=type=local,dest=docker-build-path \
-                    --tag sylius-traditional \
-                    --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 \
-                    traditional/
+                        --no-cache \
+                        --tag sylius-traditional \
+                        --build-arg BUILDKIT_INLINE_CACHE=1 \
+                        --platform linux/arm64 \
+                        traditional/
             -
                 name: Shutdown default MySQL
                 run: sudo service mysql stop
             -
                 name: Setup MySQL
                 run: |
-                    docker run \
+                    docker container run \
                         --platform linux/amd64 \
                         -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
                         -p 3306:3306/tcp \
@@ -53,14 +54,13 @@ jobs:
                 run: |
                     docker build \
                         --network sylius_network \
-                        --tag sylius-traditional \
-                        --cache-from docker-build-path \
+                        --tag sylius-traditional-prod \
                         .github/workflows/
 
-                    docker run \
+                    docker container run \
                         --net sylius_network \
                         -p 80:80/tcp \
-                        -d sylius-traditional
+                        -d sylius-traditional-prod
             -
                 name: Health Check Store
                 run: |
