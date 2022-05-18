@@ -57,7 +57,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/do
 RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm && mkdir -p /run/php
 
 # Install yarn
-RUN npm install -g yarn
+RUN npm install -g yarn && npm cache clean --force
 
 # Initialize config files
 COPY .docker/supervisord.conf   /etc/supervisor/conf.d/supervisor.conf
