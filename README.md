@@ -28,10 +28,10 @@ It's going to change. We will provide cookbooks and best practices on how to dep
 > Need something optimised or advanced? Contact ([Zbigniew Malcherczyk](https://github.com/Ferror)) via email or [slack](https://sylius-slackin.herokuapp.com).
 
 ## Metadata
-| Image              | Size                                                                           | Layers                                                                           |
-|--------------------|--------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| `1.11-traditional` | ![Docker Hub](https://badgen.net/docker/size/sylius/standard/1.11-traditional) | ![Docker Hub](https://badgen.net/docker/layers/sylius/standard/1.11-traditional) |
-| `1.11-headless`    | ![Docker Hub](https://badgen.net/docker/size/sylius/standard/1.11-headless)    | ![Docker Hub](https://badgen.net/docker/layers/sylius/standard/1.11-headless)    |
+| Image              | Size                                                                           |
+|--------------------|--------------------------------------------------------------------------------|
+| `1.11-traditional` | ![Docker Hub](https://badgen.net/docker/size/sylius/standard/1.11-traditional) |
+| `1.11-headless`    | ![Docker Hub](https://badgen.net/docker/size/sylius/standard/1.11-headless)    |
 
 > Please note that image sizes may differ in each architecture.
 
