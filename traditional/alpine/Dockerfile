@@ -18,6 +18,7 @@ RUN apk update --no-cache && apk add --no-cache \
     python2 \
     g++ \
     nginx \
+    yarn \
     php8 \
     php8-apcu \
     php8-calendar \
