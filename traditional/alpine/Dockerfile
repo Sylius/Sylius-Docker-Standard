@@ -40,6 +40,7 @@ RUN apk update --no-cache && apk add --no-cache \
     php8-pdo_mysql \
     php8-pdo_pgsql \
     php8-pgsql \
+    php8-phar \
     php8-session \
     php8-simplexml \
     php8-sqlite3 \
