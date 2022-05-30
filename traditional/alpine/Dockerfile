@@ -46,6 +46,7 @@ RUN apk update --no-cache && apk add --no-cache \
     php8-sqlite3 \
     php8-tokenizer \
     php8-xml \
+    php8-xmlwriter \
     php8-xsl \
     php8-zip
 
