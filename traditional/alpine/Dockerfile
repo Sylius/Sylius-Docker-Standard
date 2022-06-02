@@ -17,6 +17,7 @@ RUN apk update --no-cache && apk add --no-cache \
     unzip \
     python2 \
     g++ \
+    make \
     nginx \
     yarn \
     php8 \
