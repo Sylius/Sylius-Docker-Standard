@@ -11,10 +11,16 @@ on:
         paths:
             - "traditional/**"
             - ".github/**"
+    schedule:
+        - cron: "0 1 * * 6" # Run at 1am every Saturday
+    workflow_dispatch: ~
 
 jobs:
     ci-traditional-ubuntu:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                sylius_version: [1.11,1.12]
         steps:
             -
                 name: Checkout Code
@@ -30,11 +36,15 @@ jobs:
                 run: |
                     docker buildx build \
                     --no-cache \
+                    --build-arg SYLIUS_VERSION=${{ matrix.sylius_version }} \
                     --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 \
                     traditional/ubuntu/
 
     ci-traditional-alpine:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                sylius_version: [1.11,1.12]
         steps:
             -
                 name: Checkout Code

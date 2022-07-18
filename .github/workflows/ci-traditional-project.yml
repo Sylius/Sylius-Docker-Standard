@@ -11,6 +11,9 @@ on:
         paths:
             - ".github/**"
             - "traditional/**"
+    schedule:
+        - cron: "0 1 * * 6" # Run at 1am every Saturday
+    workflow_dispatch: ~
 
 jobs:
     run-traditional-ubuntu-app:
@@ -38,6 +41,7 @@ jobs:
                 run: |
                     docker build \
                         --network sylius_network \
+                        --build-arg SYLIUS_VERSION=1.12 \
                         --tag sylius-traditional \
                         .github/workflows/traditional/ubuntu/
 
@@ -76,6 +80,7 @@ jobs:
                 run: |
                     docker build \
                         --network sylius_network \
+                        --build-arg SYLIUS_VERSION=1.12 \
                         --tag sylius-traditional \
                         .github/workflows/traditional/alpine/
 
