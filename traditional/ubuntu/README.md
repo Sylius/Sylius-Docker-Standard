@@ -10,7 +10,7 @@ services:
         volumes:
             - ./:/app:delegated
             - ./.docker/dev/php.ini:/etc/php8/php.ini:delegated
-            - ./.docker/prod/cron.d:/etc/cron.d:delegated
+            - ./.docker/prod/cron.d/:/etc/cron.d/:delegated
         ports:
             - 80:80
         depends_on:
