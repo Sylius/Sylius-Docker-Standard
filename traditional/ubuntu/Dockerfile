@@ -5,6 +5,7 @@ ENV LC_ALL=C.UTF-8
 # Install basic tools
 RUN apt-get update && apt-get install -y \
     software-properties-common \
+    cron \
     curl \
     make \
     supervisor \
