@@ -18,6 +18,7 @@ on:
 jobs:
     ci-headless:
         strategy:
+            fail-fast: false
             matrix:
                 sylius_version: [1.11,1.12]
         runs-on: ubuntu-latest

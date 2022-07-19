@@ -22,7 +22,7 @@ RUN php bin/console doctrine:database:create --if-not-exists
 RUN php bin/console sylius:install --no-interaction
 RUN php bin/console sylius:fixtures:load default --no-interaction
 
-RUN yarn install --ignore-scripts && yarn build
+RUN yarn install --ignore-scripts && yarn cache clean && GULP_ENV=prod yarn build
 
 RUN mkdir -p public/media/image/
 RUN chmod -R 777 var/

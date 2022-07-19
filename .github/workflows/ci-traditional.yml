@@ -19,6 +19,7 @@ jobs:
     ci-traditional-ubuntu:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 sylius_version: [1.11,1.12]
         steps:
@@ -43,6 +44,7 @@ jobs:
     ci-traditional-alpine:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 sylius_version: [1.11,1.12]
         steps:
