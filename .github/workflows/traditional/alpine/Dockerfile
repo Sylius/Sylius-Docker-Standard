@@ -9,7 +9,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /
 
-RUN git clone https://github.com/Sylius/Sylius-Standard.git app && git checkout "${SYLIUS_VERSION}"
+RUN composer create-project sylius/sylius-standard app "${SYLIUS_VERSION}.x@dev"
 
 WORKDIR /app/
 
