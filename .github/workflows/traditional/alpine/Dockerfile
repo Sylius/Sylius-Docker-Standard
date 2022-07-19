@@ -1,5 +1,7 @@
 FROM sylius/standard:1.11-traditional-alpine
 
+ARG SYLIUS_VERSION=1.11
+
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 ENV GULP_ENV=prod

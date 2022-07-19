@@ -18,6 +18,9 @@ on:
 jobs:
     run-traditional-ubuntu-app:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                sylius_version: [1.11,1.12]
         steps:
             -
                 name: Checkout Code
@@ -41,7 +44,7 @@ jobs:
                 run: |
                     docker build \
                         --network sylius_network \
-                        --build-arg SYLIUS_VERSION=1.12 \
+                        --build-arg SYLIUS_VERSION=${{ matrix.sylius_version }} \
                         --tag sylius-traditional \
                         .github/workflows/traditional/ubuntu/
 
@@ -57,6 +60,9 @@ jobs:
 
     run-traditional-alpine-app:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                sylius_version: [1.11,1.12]
         steps:
             -
                 name: Checkout Code
@@ -80,7 +86,7 @@ jobs:
                 run: |
                     docker build \
                         --network sylius_network \
-                        --build-arg SYLIUS_VERSION=1.12 \
+                        --build-arg SYLIUS_VERSION=${{ matrix.sylius_version }} \
                         --tag sylius-traditional \
                         .github/workflows/traditional/alpine/
 
