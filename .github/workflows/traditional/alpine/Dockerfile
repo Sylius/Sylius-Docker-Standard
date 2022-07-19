@@ -1,5 +1,7 @@
 FROM sylius/standard:1.11-traditional-alpine
 
+ARG SYLIUS_VERSION=1.12
+
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 ENV GULP_ENV=prod
@@ -9,7 +11,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /
 
-RUN composer create-project sylius/sylius-standard app "dev-master" --no-scripts --no-progress --no-interaction --no-plugins --no-install
+RUN composer create-project sylius/sylius-standard app "${SYLIUS_VERSION}.x@dev" --no-scripts --no-progress --no-interaction --no-plugins --no-install
 
 WORKDIR /app/
 
