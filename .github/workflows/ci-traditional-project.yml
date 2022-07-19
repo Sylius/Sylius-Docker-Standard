@@ -11,6 +11,9 @@ on:
         paths:
             - ".github/**"
             - "traditional/**"
+    schedule:
+        - cron: "0 1 * * 6" # Run at 1am every Saturday
+    workflow_dispatch: ~
 
 jobs:
     run-traditional-ubuntu-app:
