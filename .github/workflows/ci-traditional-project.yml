@@ -28,30 +28,11 @@ jobs:
             -
                 name: Setup MySQL
                 run: |
-                    docker network create --driver bridge sylius_network
-                    docker run \
-                        --platform linux/amd64 \
-                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
-                        -p 3306:3306/tcp \
-                        --name mysql \
-                        --net sylius_network \
-                        -d mysql:5.7
-            -
-                name: Setup Sylius Store
-                run: |
-                    docker build \
-                        --network sylius_network \
-                        --tag sylius-traditional \
-                        .github/workflows/traditional/ubuntu/
-
-                    docker run \
-                        --net sylius_network \
-                        -p 80:80/tcp \
-                        -d sylius-traditional
+                    cd .github/workflows/traditional && docker compose --profile alpine up -d
             -
                 name: Health Check Store
                 run: |
-                    sleep 10
+                    sleep 20
                     curl -L --fail http://localhost:80 || exit 1
 
     run-traditional-alpine-app:
@@ -66,28 +47,9 @@ jobs:
             -
                 name: Setup MySQL
                 run: |
-                    docker network create --driver bridge sylius_network
-                    docker run \
-                        --platform linux/amd64 \
-                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
-                        -p 3306:3306/tcp \
-                        --name mysql \
-                        --net sylius_network \
-                        -d mysql:5.7
-            -
-                name: Setup Sylius Store
-                run: |
-                    docker build \
-                        --network sylius_network \
-                        --tag sylius-traditional \
-                        .github/workflows/traditional/alpine/
-
-                    docker run \
-                        --net sylius_network \
-                        -p 80:80/tcp \
-                        -d sylius-traditional
+                    cd .github/workflows/traditional && docker compose --profile alpine up -d
             -
                 name: Health Check Store
                 run: |
-                    sleep 10
+                    sleep 20
                     curl -L --fail http://localhost:80 || exit 1
