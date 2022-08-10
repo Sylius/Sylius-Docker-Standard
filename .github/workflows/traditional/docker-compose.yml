@@ -5,6 +5,8 @@ services:
             context: alpine
         ports:
             - 80:80
+        networks:
+            - sylius
         depends_on:
             - mysql
 
@@ -14,6 +16,8 @@ services:
             context: ubuntu
         ports:
             - 80:80
+        networks:
+            - sylius
         depends_on:
             - mysql
 
@@ -24,3 +28,9 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         ports:
             - 3306:3306
+        networks:
+            - sylius
+
+networks:
+    sylius:
+        driver: bridge
