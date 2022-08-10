@@ -36,6 +36,21 @@ jobs:
                     cache-from: type=gha
                     cache-to: type=gha
                     load: false
+            -
+                name: Checkout Code
+                uses: actions/checkout@v3
+            -
+                name: Shutdown default MySQL
+                run: sudo service mysql stop
+            -
+                name: Setup MySQL
+                run: |
+                    cd .github/workflows/traditional && docker compose --profile alpine up -d
+            -
+                name: Health Check Store
+                run: |
+                    sleep 20
+                    curl -L --fail http://localhost:80 || exit 1
 
     ci-traditional-alpine:
         runs-on: ubuntu-latest
@@ -57,3 +72,18 @@ jobs:
                     cache-from: type=gha
                     cache-to: type=gha
                     load: false
+            -
+                name: Checkout Code
+                uses: actions/checkout@v3
+            -
+                name: Shutdown default MySQL
+                run: sudo service mysql stop
+            -
+                name: Setup MySQL
+                run: |
+                    cd .github/workflows/traditional && docker compose --profile alpine up -d
+            -
+                name: Health Check Store
+                run: |
+                    sleep 20
+                    curl -L --fail http://localhost:80 || exit 1
