@@ -30,12 +30,12 @@ jobs:
                 uses: docker/build-push-action@v3
                 with:
                     push: false
+                    load: true
                     context: "{{defaultContext}}:traditional/ubuntu"
                     tags: sylius/standard:local
                     platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
                     cache-from: type=gha
                     cache-to: type=gha
-                    load: false
             -
                 name: Checkout Code
                 uses: actions/checkout@v3
@@ -66,12 +66,12 @@ jobs:
                 uses: docker/build-push-action@v3
                 with:
                     push: false
+                    load: true
                     context: "{{defaultContext}}:traditional/alpine"
                     tags: sylius/standard:local
                     platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
                     cache-from: type=gha
                     cache-to: type=gha
-                    load: false
             -
                 name: Checkout Code
                 uses: actions/checkout@v3
