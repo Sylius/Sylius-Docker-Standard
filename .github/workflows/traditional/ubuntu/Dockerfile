@@ -1,4 +1,4 @@
-FROM sylius/standard:1.11-traditional
+FROM sylius/standard:local-ubuntu
 
 ARG SYLIUS_VERSION=1.12
 

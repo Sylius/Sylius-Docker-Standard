@@ -1,7 +1,10 @@
-FROM node:14-alpine AS node
-FROM composer:2.3 AS composer
+ARG ALPINE_VERSION=3.15
+ARG NODE_VERSION=14
+ARG COMPOSER_VERSION=2.3
 
-FROM alpine:3.15
+FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS node
+FROM composer:${COMPOSER_VERSION} AS composer
+FROM alpine:${ALPINE_VERSION}
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
