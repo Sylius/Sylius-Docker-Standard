@@ -30,27 +30,11 @@ jobs:
                 uses: docker/build-push-action@v3
                 with:
                     push: false
-                    load: true
+                    load: false
                     context: "{{defaultContext}}:traditional/ubuntu"
-                    tags: sylius/standard:local
                     platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8
                     cache-from: type=gha
                     cache-to: type=gha
-            -
-                name: Checkout Code
-                uses: actions/checkout@v3
-            -
-                name: Shutdown default MySQL
-                run: sudo service mysql stop
-            -
-                name: Setup MySQL
-                run: |
-                    cd .github/workflows/traditional && docker compose --profile alpine up -d
-            -
-                name: Health Check Store
-                run: |
-                    sleep 20
-                    curl -L --fail http://localhost:80 || exit 1
 
     ci-traditional-alpine:
         runs-on: ubuntu-latest
@@ -72,7 +56,7 @@ jobs:
                     cache-from: type=gha
                     cache-to: type=gha
 
-    ci-traditional-alpine-project:
+    ci-traditional-ubuntu-project:
         runs-on: ubuntu-latest
         steps:
             -
@@ -87,8 +71,8 @@ jobs:
                 with:
                     push: false
                     load: true
-                    context: "{{defaultContext}}:traditional/alpine"
-                    tags: sylius/standard:local
+                    context: "{{defaultContext}}:traditional/ubuntu"
+                    tags: sylius/standard:local-ubuntu
                     cache-from: type=gha
                     cache-to: type=gha
             -
@@ -110,19 +94,76 @@ jobs:
                         -d mysql:5.7
             -
                 name: Checkout Code
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
             -
                 name: Setup Sylius Store
                 run: |
                     docker image build \
                         --network sylius_network \
-                        --tag sylius-image-prod \
+                        --tag sylius-ubuntu-prod \
+                        .github/workflows/traditional/ubuntu/
+
+                    docker container run \
+                        --network sylius_network \
+                        -p 80:80/tcp \
+                        -d sylius-ubuntu-prod
+            -
+                name: Health Check Store
+                run: |
+                    sleep 5
+                    curl -L --fail http://localhost:80 || exit 1
+
+    ci-traditional-alpine-project:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                name: Set Up QEMU
+                uses: docker/setup-qemu-action@v2
+            -
+                name: Set Up Docker Buildx
+                uses: docker/setup-buildx-action@v2
+            -
+                name: Build Image
+                uses: docker/build-push-action@v3
+                with:
+                    push: false
+                    load: true
+                    context: "{{defaultContext}}:traditional/alpine"
+                    tags: sylius/standard:local-alpine
+                    cache-from: type=gha
+                    cache-to: type=gha
+            -
+                name: Shutdown Default MySQL
+                run: sudo service mysql stop
+            -
+                name: Setup MySQL
+                run: |
+                    docker network create \
+                        --driver bridge \
+                        sylius_network
+                    
+                    docker container run \
+                        --platform linux/amd64 \
+                        -e MYSQL_ALLOW_EMPTY_PASSWORD=true \
+                        -p 3306:3306/tcp \
+                        --name mysql \
+                        --network sylius_network \
+                        -d mysql:5.7
+            -
+                name: Checkout Code
+                uses: actions/checkout@v3
+            -
+                name: Setup Sylius Store
+                run: |
+                    docker image build \
+                        --network sylius_network \
+                        --tag sylius-alpine-prod \
                         .github/workflows/traditional/alpine/
 
                     docker container run \
                         --network sylius_network \
                         -p 80:80/tcp \
-                        -d sylius-image-prod
+                        -d sylius-alpine-prod
             -
                 name: Health Check Store
                 run: |

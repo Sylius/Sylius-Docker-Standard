@@ -1,4 +1,4 @@
-FROM sylius/standard:local
+FROM sylius/standard:local-alpine
 
 ARG SYLIUS_VERSION=1.12
 
