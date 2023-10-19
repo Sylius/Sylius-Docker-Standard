@@ -8,9 +8,9 @@ on:
             - "headless/**"
 
 env:
-    IMAGE_OWNER: sylius
-    IMAGE_NAME: standard
-    IMAGE_VERSION: 1.11
+    IMAGE_OWNER: soapmedia
+    IMAGE_NAME: sylius
+    IMAGE_VERSION: 8.2
     IMAGE_TYPE: headless
 
 jobs:

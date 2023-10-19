@@ -1,5 +1,6 @@
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
+ARG PHP_VERSION=8.2
 ENV LC_ALL=C.UTF-8
 
 # Install basic tools
@@ -16,29 +17,29 @@ RUN add-apt-repository ppa:ondrej/php && add-apt-repository ppa:ondrej/nginx
 # Install NGINX and required PHP extensions
 RUN apt-get update && apt-get install -y \
     nginx \
-    php8.0 \
-    php8.0-apcu \
-    php8.0-calendar \
-    php8.0-common \
-    php8.0-cli \
-    php8.0-common \
-    php8.0-ctype \
-    php8.0-curl \
-    php8.0-dom \
-    php8.0-exif \
-    php8.0-fpm \
-    php8.0-gd \
-    php8.0-intl \
-    php8.0-mbstring \
-    php8.0-mysql \
-    php8.0-opcache \
-    php8.0-pdo \
-    php8.0-pgsql \
-    php8.0-sqlite \
-    php8.0-xml \
-    php8.0-xsl \
-    php8.0-yaml \
-    php8.0-zip
+    php${PHP_VERSION} \
+    php${PHP_VERSION}-apcu \
+    php${PHP_VERSION}-calendar \
+    php${PHP_VERSION}-common \
+    php${PHP_VERSION}-cli \
+    php${PHP_VERSION}-common \
+    php${PHP_VERSION}-ctype \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-dom \
+    php${PHP_VERSION}-exif \
+    php${PHP_VERSION}-fpm \
+    php${PHP_VERSION}-gd \
+    php${PHP_VERSION}-intl \
+    php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-mysql \
+    php${PHP_VERSION}-opcache \
+    php${PHP_VERSION}-pdo \
+    php${PHP_VERSION}-pgsql \
+    php${PHP_VERSION}-sqlite \
+    php${PHP_VERSION}-xml \
+    php${PHP_VERSION}-xsl \
+    php${PHP_VERSION}-yaml \
+    php${PHP_VERSION}-zip
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename composer
@@ -49,14 +50,14 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/do
 # Create directory for php-fpm socket
 # Link php-fpm binary file without version
 # -p Creates missing intermediate path name directories
-RUN ln -s /usr/sbin/php-fpm8.0 /usr/sbin/php-fpm && mkdir -p /run/php
+RUN ln -s /usr/sbin/php-fpm${PHP_VERSION} /usr/sbin/php-fpm && mkdir -p /run/php
 
 # Initialize config files
 COPY .docker/supervisord.conf   /etc/supervisor/conf.d/supervisor.conf
 COPY .docker/nginx.conf         /etc/nginx/nginx.conf
-COPY .docker/fpm.conf           /etc/php/8.0/fpm/pool.d/www.conf
-COPY .docker/php.ini            /etc/php/8.0/fpm/php.ini
-COPY .docker/php.ini            /etc/php/8.0/cli/php.ini
+COPY .docker/fpm.conf           /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+COPY .docker/php.ini            /etc/php/${PHP_VERSION}/fpm/php.ini
+COPY .docker/php.ini            /etc/php/${PHP_VERSION}/cli/php.ini
 
 WORKDIR /app
 
